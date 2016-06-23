@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<transfers xmlns="http://xsd.spryker.com"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://xsd.spryker.com ../../src/Spryker/TransferObjectDefinitionSchema.xsd">
+
+    <transfer name="Refund">
+        <!--<property name="idRefund" type="int"/>-->
+        <!--<property name="fkSalesOrder" type="int"/>-->
+        <property name="isSuccessful" type="bool"/>
+        <property name="customerInfo" type="string"/>
+        <property name="items" type="RefundItem[]" singular="item"/>
+    </transfer>
+
+    <transfer name="RefundItem">
+        <property name="idRefundItem" type="int"/>
+        <property name="fkRefund" type="int"/>
+        <property name="fkSalesOrderItem" type="int"/>
+        <property name="name" type="string"/>
+        <property name="reason" type="string"/>
+        <property name="quantity" type="int"/>
+        <property name="grossPrice" type="int"/>
+        <property name="totalGrossPrice" type="int"/>
+        <property name="taxRate" type="float"/>
+        <property name="taxAmount" type="int"/>
+    </transfer>
+
+</transfers>
+
