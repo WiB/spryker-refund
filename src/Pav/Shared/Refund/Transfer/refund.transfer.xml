@@ -9,6 +9,7 @@
         <property name="isSuccessful" type="bool"/>
         <property name="customerInfo" type="string"/>
         <property name="items" type="RefundItem[]" singular="item"/>
+        <property name="totals" type="Totals"/>
     </transfer>
 
     <transfer name="RefundItem">
