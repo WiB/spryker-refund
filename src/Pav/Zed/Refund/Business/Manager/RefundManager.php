@@ -73,6 +73,7 @@ class RefundManager
         $refundItem->setQuantity($orderItem->getQuantity());
         $refundItem->setGrossPrice($orderItem->getUnitGrossPrice());
         $refundItem->setTotalGrossPrice($orderItem->getSumGrossPrice());
+        $refundItem->setDiscountAmount($orderItem->getSumTotalDiscountAmount());
         $refundItem->setName($orderItem->getName());
         $refundItem->setTaxRate($orderItem->getTaxRate());
         $refundItem->setTaxAmount($orderItem->getSumTaxAmount());
