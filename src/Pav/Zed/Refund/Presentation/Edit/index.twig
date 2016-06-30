@@ -1,0 +1,17 @@
+{% extends '@Gui/Layout/layout.twig' %}
+
+{% block content %}
+
+    {% embed '@Gui/Partials/widget.twig' with { widget_title: 'Refunds' } %}
+
+        {% block widget_content %}
+
+            {{ form_start(refundItemCollectionForm }}
+            {{ form_rows(refundItemCollectionForm }}
+            {{ form_end(refundItemCollectionForm }}
+
+        {% endblock %}
+
+    {% endembed %}
+
+{% endblock %}

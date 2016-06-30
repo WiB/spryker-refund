@@ -2,6 +2,7 @@
 
 namespace Pav\Zed\Refund\Communication;
 
+use Pav\Zed\Refund\Communication\Form\RefundItemCollection;
 use Pav\Zed\Refund\Communication\Table\RefundTable;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
@@ -25,6 +26,19 @@ class RefundCommunicationFactory extends AbstractCommunicationFactory
             $idSalesOrder,
             $dataUrl
         );
+    }
+
+    /**
+     * @param array $formData
+     * @param array $options
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createRefundItemCollectionForm(array $formData, array $options)
+    {
+        $refundItemCollection = new RefundItemCollection();
+
+        return $this->getFormFactory()->create($refundItemCollection, $formData, $options);
     }
 
 }
