@@ -23,7 +23,7 @@ class EditController extends AbstractController
     {
         $form = $this->getFactory()->createRefundItemCollectionForm(
             [
-                RefundItemCollection::FIELD_REFUND_ITEMS => [
+                RefundItemCollection::FIELD_TABLE_BODY => [
                     [
                         RefundItem::FIELD_ID_REFUND_ITEM => 1,
                         RefundItem::FIELD_NAME => 'Refund item 1',
@@ -59,9 +59,10 @@ class EditController extends AbstractController
                     ],
                 ],
             ],
-            []
-        );
+            [
 
+            ]
+        );
         return [
             'refundItemCollectionForm' => $form->createView(),
         ];

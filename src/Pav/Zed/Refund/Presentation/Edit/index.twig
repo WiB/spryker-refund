@@ -6,9 +6,9 @@
 
         {% block widget_content %}
 
-            {{ form_start(refundItemCollectionForm }}
-            {{ form_rows(refundItemCollectionForm }}
-            {{ form_end(refundItemCollectionForm }}
+            {% form_theme refundItemCollectionForm '@Refund/Edit/form_collection_table_layout.html.twig' %}
+
+            {{ form(refundItemCollectionForm) }}
 
         {% endblock %}
 

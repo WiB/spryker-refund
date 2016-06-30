@@ -57,7 +57,13 @@ class RefundItem extends AbstractType
      */
     protected function addIdRefundItemField(FormBuilderInterface $builder)
     {
-        $builder->add(self::FIELD_ID_REFUND_ITEM, 'text');
+        $builder->add(self::FIELD_ID_REFUND_ITEM, 'text', [
+            'constraints' => [
+                new Required(),
+                new NotBlank(),
+            ],
+            'disabled' => true,
+        ]);
 
         return $this;
     }
@@ -86,10 +92,15 @@ class RefundItem extends AbstractType
      */
     protected function addReasonField(FormBuilderInterface $builder)
     {
+
         $builder->add(self::FIELD_REASON, 'text', [
             'constraints' => [
                 new Required(),
                 new NotBlank(),
+            ],
+            'disabled' => true,
+            'attr' => [
+                'foo' => true,
             ]
         ]);
 
