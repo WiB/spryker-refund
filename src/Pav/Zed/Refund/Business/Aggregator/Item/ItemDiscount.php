@@ -4,7 +4,7 @@ namespace Pav\Zed\Refund\Business\Aggregator\Item;
 
 use Generated\Shared\Transfer\RefundItemTransfer;
 
-class ItemAmount implements ItemAggregatorInterface
+class ItemDiscount implements ItemAggregatorInterface
 {
 
     /**
@@ -14,11 +14,7 @@ class ItemAmount implements ItemAggregatorInterface
      */
     public function aggregate(RefundItemTransfer $itemTransfer)
     {
-        $itemTransfer
-            ->requireQuantity()
-            ->requireGrossPrice();
 
-        $itemTransfer->setTotalGrossPrice($itemTransfer->getGrossPrice() * $itemTransfer->getQuantity());
     }
 
 }

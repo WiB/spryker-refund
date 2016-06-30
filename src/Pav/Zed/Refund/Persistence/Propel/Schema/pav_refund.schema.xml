@@ -8,7 +8,7 @@
     <table name="pav_refund" idMethod="native" phpName="PavRefund">
         <column name="id_refund" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" type="INTEGER" required="true"/>
-        <column name="is_successful" type="BOOLEAN" default="NULL"/>
+        <column name="successful" type="BOOLEAN" default="NULL"/>
         <column name="customer_info" type="VARCHAR"/>
 
         <foreign-key foreignTable="spy_sales_order" phpName="SalesOrder" refPhpName="Refund">

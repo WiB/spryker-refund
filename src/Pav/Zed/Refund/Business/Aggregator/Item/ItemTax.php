@@ -3,8 +3,9 @@
 namespace Pav\Zed\Refund\Business\Aggregator\Item;
 
 use Generated\Shared\Transfer\RefundItemTransfer;
+use Pav\Zed\Refund\Dependency\Facade\RefundToTaxInterface;
 
-class ItemTax
+class ItemTax implements ItemAggregatorInterface
 {
 
     /**
@@ -35,12 +36,12 @@ class ItemTax
             ->requireGrossPrice()
             ->requireTotalGrossPrice();
 
-        $itemTransfer->setTaxAmount(
-            $this->taxBridge->getTaxAmountFromGrossPrice(
-                $itemTransfer->getTotalGrossPrice(),
-                $itemTransfer->getTaxRate()
-            )
+        $taxAmount = $this->taxBridge->getTaxAmountFromGrossPrice(
+            $itemTransfer->getTotalGrossPrice(),
+            $itemTransfer->getTaxRate()
         );
+
+        $itemTransfer->setTaxAmount($taxAmount);
     }
 
 }

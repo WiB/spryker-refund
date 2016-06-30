@@ -8,7 +8,7 @@ use Generated\Shared\Transfer\RefundItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Pav\Zed\Refund\Business\Writer\RefundWriterInterface;
 
-class RefundManager
+class OrderRefundManager
 {
 
     /**

@@ -16,10 +16,24 @@ interface RefundQueryContainerInterface
     public function createPavRefundItem();
 
     /**
+     * @param int $idRefund
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundById($idRefund);
+
+    /**
      * @param int $idRefundItem
      *
      * @return \Orm\Zed\Refund\Persistence\PavRefundItemQuery
      */
     public function queryRefundItemById($idRefundItem);
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundByIdSalesOrder($idSalesOrder);
 
 }

@@ -2,12 +2,12 @@
 
 namespace Pav\Zed\Refund\Business\Aggregator;
 
+use Generated\Shared\Transfer\RefundTotalsTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
-use Generated\Shared\Transfer\TotalsTransfer;
 use Pav\Zed\Refund\Dependency\Plugin\RefundAggregatorPluginInterface;
 use Pav\Zed\Refund\Dependency\Plugin\RefundItemAggregatorPluginInterface;
 
-class RefundTotalsAggregator
+class RefundTotalsAggregator implements RefundTotalsAggregatorInterface
 {
 
     /**
@@ -38,7 +38,7 @@ class RefundTotalsAggregator
     /**
      * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
      *
-     * @return void
+     * @return \Generated\Shared\Transfer\RefundTransfer
      */
     public function aggregate(RefundTransfer $refundTransfer)
     {
@@ -51,6 +51,8 @@ class RefundTotalsAggregator
         foreach ($this->aggregatorStack as $aggregator) {
             $aggregator->aggregate($refundTransfer);
         }
+
+        return $refundTransfer;
     }
 
     /**
@@ -93,7 +95,7 @@ class RefundTotalsAggregator
      */
     protected function addTotalsTransfer(RefundTransfer $refundTransfer)
     {
-        $totalsTransfer = new TotalsTransfer();
+        $totalsTransfer = new RefundTotalsTransfer();
         $refundTransfer->setTotals($totalsTransfer);
     }
 

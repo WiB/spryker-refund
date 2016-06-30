@@ -5,6 +5,7 @@ namespace Pav\Zed\Refund\Persistence;
 use Orm\Zed\Refund\Persistence\PavRefund;
 use Orm\Zed\Refund\Persistence\PavRefundItem;
 use Orm\Zed\Refund\Persistence\PavRefundItemQuery;
+use Orm\Zed\Refund\Persistence\PavRefundQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractQueryContainer;
 
 class RefundQueryContainer extends AbstractQueryContainer implements RefundQueryContainerInterface
@@ -27,6 +28,19 @@ class RefundQueryContainer extends AbstractQueryContainer implements RefundQuery
     }
 
     /**
+     * @param int $idRefund
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundById($idRefund)
+    {
+        $query = new PavRefundQuery();
+        $query->filterByIdRefund($idRefund);
+
+        return $query;
+    }
+
+    /**
      * @param int $idRefundItem
      *
      * @return \Orm\Zed\Refund\Persistence\PavRefundItemQuery
@@ -37,6 +51,19 @@ class RefundQueryContainer extends AbstractQueryContainer implements RefundQuery
         $query->filterByIdRefundItem($idRefundItem);
 
         return $query;
+    }
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundByIdSalesOrder($idSalesOrder)
+    {
+        $refundQuery = new PavRefundQuery();
+        $refundQuery->filterByFkSalesOrder($idSalesOrder);
+
+        return $refundQuery;
     }
 
 }
