@@ -2,7 +2,7 @@
 
 namespace Pav\Zed\Refund\Communication\Form;
 
-class RefundItemCollection extends AbstractTableForm
+class Refund extends AbstractTableForm
 {
 
     const FIELD_HEADER_ROW = 'header_row';

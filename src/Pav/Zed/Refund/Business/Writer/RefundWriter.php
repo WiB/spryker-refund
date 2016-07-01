@@ -63,12 +63,31 @@ class RefundWriter implements RefundWriterInterface
     }
 
     /**
+     * @param \Generated\Shared\Transfer\RefundItemTransfer[] $refundItems
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException
+     * @return array
+     */
+    public function createOrUpdateRefundItems(array $refundItems)
+    {
+        foreach ($refundItems as $refundItem) {
+            if ($refundItem->getIdRefundItem() === null) {
+                $this->writeRefundItem($refundItem);
+            } else {
+                $this->updateRefundItem($refundItem);
+            }
+        }
+
+        return $refundItems;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\RefundItemTransfer $refundItem
      *
      * @throws \Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException
      * @return \Generated\Shared\Transfer\RefundItemTransfer
      */
-    public function updateRefundItem(RefundItemTransfer $refundItem)
+    protected function updateRefundItem(RefundItemTransfer $refundItem)
     {
         $idRefundItem = $refundItem->getIdRefundItem();
 
@@ -83,6 +102,7 @@ class RefundWriter implements RefundWriterInterface
         }
 
         $refundItemEntity->fromArray($refundItem->toArray());
+        $refundItemEntity->save();
 
         return $refundItem;
     }

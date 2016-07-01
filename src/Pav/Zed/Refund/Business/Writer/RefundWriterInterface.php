@@ -24,4 +24,12 @@ interface RefundWriterInterface
      */
     public function writeRefundItem(RefundItemTransfer $refundItem);
 
+    /**
+     * @param \Generated\Shared\Transfer\RefundItemTransfer[] $refundItems
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException
+     * @return array
+     */
+    public function createOrUpdateRefundItems(array $refundItems);
+
 }

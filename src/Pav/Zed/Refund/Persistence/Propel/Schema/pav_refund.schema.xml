@@ -29,7 +29,6 @@
         <column name="reason" type="LONGVARCHAR" default="NULL"/>
         <column name="quantity" type="INTEGER" required="true"/>
         <column name="gross_price" type="INTEGER" required="true"/>
-        <column name="total_gross_price" type="INTEGER" required="true"/>
         <column name="discount_amount" type="INTEGER"/>
         <column name="tax_rate" type="DECIMAL" size="8" scale="2" required="false"/>
         <column name="tax_amount" type="INTEGER" required="true"/>

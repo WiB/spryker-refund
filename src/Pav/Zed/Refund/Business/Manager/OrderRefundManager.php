@@ -72,7 +72,6 @@ class OrderRefundManager
         $refundItem->setFkSalesOrderItem($orderItem->getIdSalesOrderItem());
         $refundItem->setQuantity($orderItem->getQuantity());
         $refundItem->setGrossPrice($orderItem->getUnitGrossPrice());
-        $refundItem->setTotalGrossPrice($orderItem->getSumGrossPrice());
         $refundItem->setDiscountAmount($orderItem->getSumTotalDiscountAmount());
         $refundItem->setName($orderItem->getName());
         $refundItem->setTaxRate($orderItem->getTaxRate());

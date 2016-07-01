@@ -56,6 +56,16 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \Pav\Zed\Refund\Business\Writer\RefundWriterInterface
+     */
+    public function createRefundWriter()
+    {
+        return new RefundWriter(
+            $this->getQueryContainer()
+        );
+    }
+
+    /**
      * @return \Pav\Zed\Refund\Business\Aggregator\Item\ItemAmount
      */
     public function createItemAmountAggregator()
@@ -112,16 +122,6 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     {
         return new TaxTotal(
             $this->getTaxFacade()
-        );
-    }
-
-    /**
-     * @return \Pav\Zed\Refund\Business\Writer\RefundWriterInterface
-     */
-    protected function createRefundWriter()
-    {
-        return new RefundWriter(
-            $this->getQueryContainer()
         );
     }
 

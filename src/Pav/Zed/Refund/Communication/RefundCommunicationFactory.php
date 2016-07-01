@@ -2,13 +2,15 @@
 
 namespace Pav\Zed\Refund\Communication;
 
-use Pav\Zed\Refund\Communication\Form\RefundItemCollection;
+use Pav\Zed\Refund\Communication\Form\DataProvider\RefundDataFormatter;
+use Pav\Zed\Refund\Communication\Form\Handler\RefundHandler;
+use Pav\Zed\Refund\Communication\Form\Refund;
 use Pav\Zed\Refund\Communication\Table\RefundTable;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
-
 /**
  * @method \Pav\Zed\Refund\Persistence\RefundQueryContainer getQueryContainer()
+ * @method \Pav\Zed\Refund\Business\RefundFacade getFacade()
  */
 class RefundCommunicationFactory extends AbstractCommunicationFactory
 {
@@ -34,11 +36,29 @@ class RefundCommunicationFactory extends AbstractCommunicationFactory
      *
      * @return \Symfony\Component\Form\FormInterface
      */
-    public function createRefundItemCollectionForm(array $formData, array $options)
+    public function createRefundForm(array $formData, array $options)
     {
-        $refundItemCollection = new RefundItemCollection();
+        $refundItemCollection = new Refund();
 
         return $this->getFormFactory()->create($refundItemCollection, $formData, $options);
+    }
+
+    /**
+     * @return \Pav\Zed\Refund\Communication\Form\DataProvider\RefundDataFormatter
+     */
+    public function createRefundDataFormatter()
+    {
+        return new RefundDataFormatter();
+    }
+
+    /**
+     * @return \Pav\Zed\Refund\Communication\Form\Handler\RefundHandler
+     */
+    public function createRefundHandler()
+    {
+        return new RefundHandler(
+            $this->getFacade()
+        );
     }
 
 }

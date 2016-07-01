@@ -38,7 +38,7 @@ class CreateRefundCommand extends AbstractCommand implements CommandByOrderInter
     protected function getOrderTransfer(SpySalesOrder $orderEntity)
     {
         $orderTransfer = new OrderTransfer();
-        $orderTransfer->fromArray($orderEntity->toArray());
+        $orderTransfer->fromArray($orderEntity->toArray(), true);
 
         return $orderTransfer;
     }
@@ -54,7 +54,8 @@ class CreateRefundCommand extends AbstractCommand implements CommandByOrderInter
 
         foreach ($orderItems as $orderItem) {
             $itemTransfer = new ItemTransfer();
-            $itemTransfer->fromArray($orderItem->toArray());
+            $itemTransfer->fromArray($orderItem->toArray(), true);
+            $itemTransfer->setUnitGrossPrice($orderItem->getGrossPrice());
 
             $itemTransfers[] = $itemTransfer;
         }

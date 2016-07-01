@@ -29,6 +29,17 @@ class RefundFacade extends AbstractFacade
     }
 
     /**
+     * @param \Generated\Shared\Transfer\RefundItemTransfer[] $refundItems
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException
+     * @return array
+     */
+    public function updateRefundItems(array $refundItems)
+    {
+        return $this->getFactory()->createRefundWriter()->createOrUpdateRefundItems($refundItems);
+    }
+
+    /**
      * @param int $idRefund
      *
      * @throws \Pav\Zed\Refund\Business\Exception\RefundNotFoundException

@@ -20,6 +20,7 @@ class RefundItem extends AbstractType
     const FIELD_DISCOUNT_AMOUNT = 'dicount_amount';
     const FIELD_TAX_AMOUNT = 'tax_amount';
     const FIELD_TAX_RATE = 'tax_rate';
+    const FIELD_FK_REFUND = 'fk_refund';
 
     /**
      * Returns the name of this type.
@@ -40,6 +41,7 @@ class RefundItem extends AbstractType
     {
         $this
             ->addIdRefundItemField($builder)
+            ->addFkRefundField($builder)
             ->addNameField($builder)
             ->addReasonField($builder)
             ->addQuantityField($builder)
@@ -73,9 +75,22 @@ class RefundItem extends AbstractType
      *
      * @return $this
      */
+    protected function addFkRefundField(FormBuilderInterface $builder)
+    {
+        $builder->add(self::FIELD_FK_REFUND, 'hidden');
+
+        return $this;
+    }
+
+    /**
+     * @param \Symfony\Component\Form\FormBuilderInterface $builder
+     *
+     * @return $this
+     */
     protected function addNameField(FormBuilderInterface $builder)
     {
         $builder->add(self::FIELD_NAME, 'text', [
+            'disabled' => true,
             'constraints' => [
                 new Required(),
                 new NotBlank(),
@@ -94,13 +109,13 @@ class RefundItem extends AbstractType
     {
 
         $builder->add(self::FIELD_REASON, 'text', [
+            'label' => 'Reason',
             'constraints' => [
                 new Required(),
                 new NotBlank(),
             ],
-            'disabled' => true,
             'attr' => [
-                'foo' => true,
+                'class' => 'col-sm-6',
             ]
         ]);
 
