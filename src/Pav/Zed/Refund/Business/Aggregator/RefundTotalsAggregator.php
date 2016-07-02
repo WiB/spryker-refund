@@ -26,7 +26,7 @@ class RefundTotalsAggregator implements RefundTotalsAggregatorInterface
      */
     public function __construct(array $aggregatorStack, array $itemAggregatorStack)
     {
-        foreach ($this->aggregatorStack as $aggregator) {
+        foreach ($aggregatorStack as $aggregator) {
             $this->addAggregatorToStack($aggregator);
         }
 

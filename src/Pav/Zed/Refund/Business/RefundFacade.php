@@ -67,7 +67,7 @@ class RefundFacade extends AbstractFacade
      */
     public function aggregateRefundTotal(RefundTransfer $refundTransfer)
     {
-        $this->getFactory()->createRefundTotalsAggregator()->aggregate($refundTransfer);
+        $this->getFactory()->createRefundTotalAggregator()->aggregate($refundTransfer);
     }
 
     /**

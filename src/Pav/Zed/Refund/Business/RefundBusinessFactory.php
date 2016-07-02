@@ -28,7 +28,8 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     public function createOrderRefundManager()
     {
         return new OrderRefundManager(
-            $this->createRefundWriter()
+            $this->createRefundWriter(),
+            $this->getSalesAggregatorFacade()
         );
     }
 
@@ -39,8 +40,8 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     public function createRefundTotalsAggregator()
     {
         return new RefundTotalsAggregator(
-            $this->getProvidedDependency(RefundDependencyProvider::REFUND_ITEM_AGGREGATOR_PLUGINS),
-            $this->getProvidedDependency(RefundDependencyProvider::REFUND_TOTAL_AGGREGATOR_PLUGINS)
+            $this->getProvidedDependency(RefundDependencyProvider::REFUND_TOTAL_AGGREGATOR_PLUGINS),
+            $this->getProvidedDependency(RefundDependencyProvider::REFUND_ITEM_AGGREGATOR_PLUGINS)
         );
     }
 
@@ -126,12 +127,19 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
-     * @return mixed
+     * @return \Pav\Zed\Refund\Dependency\Facade\RefundToTaxInterface
      */
     protected function getTaxFacade()
     {
         return $this->getProvidedDependency(RefundDependencyProvider::FACADE_TAX);
+    }
+
+    /**
+     * @return \Pav\Zed\Refund\Dependency\Facade\RefundToSalesAggregatorInterface
+     */
+    protected function getSalesAggregatorFacade()
+    {
+        return $this->getProvidedDependency(RefundDependencyProvider::FACADE_SALES_AGGREGATOR);
     }
 
 }

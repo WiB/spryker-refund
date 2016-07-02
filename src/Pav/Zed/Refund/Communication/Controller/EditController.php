@@ -28,57 +28,39 @@ class EditController extends AbstractController
         $refundTransfer = $this->getFacade()->getRefund($idRefund);
 
         $refundForm = $this->getRefundForm($request, $refundTransfer);
+        $refundItemForm = $this->getRefundItemForm($request, $refundTransfer);
 
         if ($refundForm->isValid()) {
             $this->handleRefundForm($refundForm);
+
+            return $this->redirectResponse('/refund/edit?id-refund=' . $idRefund);
         }
 
         return [
             'refund' => $refundTransfer,
             'refundForm' => $refundForm->createView(),
+            'refundItemForm' => $refundItemForm->createView(),
         ];
     }
 
-    protected function getItemMock()
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function addShippingCostsAction(Request $request)
     {
-        return [
-            Refund::FIELD_TABLE_BODY => [
-                [
-                    RefundItem::FIELD_ID_REFUND_ITEM => 1,
-                    RefundItem::FIELD_NAME => 'Refund item 1',
-                    RefundItem::FIELD_REASON => 'Reason',
-                    RefundItem::FIELD_GROSS_PRICE => 110,
-                    RefundItem::FIELD_TOTAL_GROSS_PRICE => 99,
-                    RefundItem::FIELD_QUANTITY => 1,
-                    RefundItem::FIELD_TAX_AMOUNT => 112,
-                    RefundItem::FIELD_TAX_RATE => 19,
-                    RefundItem::FIELD_DISCOUNT_AMOUNT => 100,
-                ],
-                [
-                    RefundItem::FIELD_ID_REFUND_ITEM => 1,
-                    RefundItem::FIELD_NAME => 'Refund item 2',
-                    RefundItem::FIELD_REASON => 'Reason',
-                    RefundItem::FIELD_GROSS_PRICE => 110,
-                    RefundItem::FIELD_TOTAL_GROSS_PRICE => 99,
-                    RefundItem::FIELD_QUANTITY => 1,
-                    RefundItem::FIELD_TAX_AMOUNT => 112,
-                    RefundItem::FIELD_TAX_RATE => 19,
-                    RefundItem::FIELD_DISCOUNT_AMOUNT => 100,
-                ],
-                [
-                    RefundItem::FIELD_ID_REFUND_ITEM => 1,
-                    RefundItem::FIELD_NAME => 'Refund item 3',
-                    RefundItem::FIELD_REASON => 'Reason',
-                    RefundItem::FIELD_GROSS_PRICE => 100,
-                    RefundItem::FIELD_TOTAL_GROSS_PRICE => 199,
-                    RefundItem::FIELD_QUANTITY => 1,
-                    RefundItem::FIELD_TAX_AMOUNT => 112,
-                    RefundItem::FIELD_TAX_RATE => 19,
-                    RefundItem::FIELD_DISCOUNT_AMOUNT => 100,
-                ],
-            ],
-        ];
+        $idRefund = $this->castId($request->get(RefundConstants::PARAM_ID_REFUND));
+        $refundTransfer = $this->getFacade()->getRefund($idRefund);
 
+        return $this->redirectResponse('/refund/edit?id-refund=' . $idRefund);
+    }
+
+    public function deleteItem(Request $request)
+    {
+        $idRefundItem = $this->castId($request->get(RefundConstants::PARAM_ID_REFUND_ITEM));
+
+//        return $this->redirectResponse('/refund/edit?id-refund=' . $idRefund);
     }
 
     /**
@@ -117,6 +99,20 @@ class EditController extends AbstractController
                 $exception->getTraceAsString()
             );
         }
+    }
+
+    /**
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    protected function getRefundItemForm(Request $request, RefundTransfer $refundTransfer)
+    {
+        return $this->getFactory()->createRefundItemForm(
+            [],
+            []
+        );
     }
 
 }

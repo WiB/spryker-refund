@@ -66,13 +66,13 @@ class RefundReader
     protected function convertToTransfer(PavRefund $refundEntity)
     {
         $refundTransfer = new RefundTransfer();
-        $refundTransfer->fromArray($refundEntity->toArray());
+        $refundTransfer->fromArray($refundEntity->toArray(), true);
 
         foreach ($refundEntity->getRefundItems() as $refundItem) {
             $refundItemTransfer = new RefundItemTransfer();
-            $refundItemTransfer->fromArray($refundItem->toArray());
+            $refundItemTransfer->fromArray($refundItem->toArray(), true);
 
-            $refundTransfer->addItem($refundItem);
+            $refundTransfer->addItem($refundItemTransfer);
         }
 
         return $refundTransfer;

@@ -7,6 +7,7 @@ use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\RefundItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Pav\Zed\Refund\Business\Writer\RefundWriterInterface;
+use Pav\Zed\Refund\Dependency\Facade\RefundToSalesAggregatorInterface;
 
 class OrderRefundManager
 {
@@ -17,11 +18,20 @@ class OrderRefundManager
     protected $refundWriter;
 
     /**
-     * @param \Pav\Zed\Refund\Business\Writer\RefundWriterInterface $refundWriter
+     * @var \Pav\Zed\Refund\Dependency\Facade\RefundToSalesAggregatorInterface
      */
-    public function __construct(RefundWriterInterface $refundWriter)
-    {
+    protected $salesAggregatorBridge;
+
+    /**
+     * @param \Pav\Zed\Refund\Business\Writer\RefundWriterInterface $refundWriter
+     * @param \Pav\Zed\Refund\Dependency\Facade\RefundToSalesAggregatorInterface $salesAggregatorBridge
+     */
+    public function __construct(
+        RefundWriterInterface $refundWriter,
+        RefundToSalesAggregatorInterface $salesAggregatorBridge
+    ) {
         $this->refundWriter = $refundWriter;
+        $this->salesAggregatorBridge = $salesAggregatorBridge;
     }
 
     /**
@@ -32,6 +42,7 @@ class OrderRefundManager
      */
     public function createRefund(OrderTransfer $order, array $orderItems)
     {
+        $order = $this->getOrderWithTotals($order, $orderItems);
         $refund = $this->createRefundTransfer($order);
 
         foreach ($orderItems as $orderItem) {
@@ -78,6 +89,19 @@ class OrderRefundManager
         $refundItem->setTaxAmount($orderItem->getSumTaxAmount());
 
         return $refundItem;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $order
+     * @param array $orderItems
+     *
+     * @return \Generated\Shared\Transfer\OrderTransfer
+     */
+    protected function getOrderWithTotals(OrderTransfer $order, array $orderItems)
+    {
+        $order->setItems(new \ArrayObject($orderItems));
+
+        return $this->salesAggregatorBridge->getOrderTotalByOrderTransfer($order);
     }
 
 }

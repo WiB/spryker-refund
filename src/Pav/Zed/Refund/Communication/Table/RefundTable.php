@@ -122,9 +122,9 @@ class RefundTable extends AbstractTable
     {
         $labels = [];
 
-        if ($successful) {
+        if ($successful === true) {
             $labels[] = '<span class="label label-primary">successful</span>';
-        } else {
+        } elseif ($successful === false) {
             $labels[] = '<span class="label label-danger">failed</span>';
         }
 

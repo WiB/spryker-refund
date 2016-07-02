@@ -11,6 +11,7 @@ abstract class AbstractTableForm extends AbstractType
 
     const FIELD_HEADER_ROW = 'header_row';
     const FIELD_TABLE_BODY = 'table_body';
+    const FIELD_SUBMIT = 'submit';
 
     /**
      * @return \Symfony\Component\Form\AbstractType
@@ -25,8 +26,8 @@ abstract class AbstractTableForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $this->addHeaderRowField($builder);
         $this->addRefundItemsField($builder);
+        $this->addSubmitField($builder);
     }
 
     /**
@@ -42,8 +43,12 @@ abstract class AbstractTableForm extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
             'allow_extra_fields' => true,
+            'prototype' => true,
             'constraints' => [
                 new Valid(),
+            ],
+            'options' => [
+                'label' => false,
             ],
         ]);
 
@@ -55,11 +60,12 @@ abstract class AbstractTableForm extends AbstractType
      *
      * @return $this
      */
-    protected function addHeaderRowField(FormBuilderInterface $builder)
+    protected function addSubmitField(FormBuilderInterface $builder)
     {
-        $builder->add(self::FIELD_HEADER_ROW, $this->getTableItemType(), [
+        $builder->add(self::FIELD_SUBMIT, 'submit', [
+            'label' => 'Save All',
             'attr' => [
-                'novalidate' => 'novalidate'
+                'class' => 'btn btn-primary'
             ]
         ]);
 
