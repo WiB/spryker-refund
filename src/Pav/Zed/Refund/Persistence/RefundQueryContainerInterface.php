@@ -36,4 +36,12 @@ interface RefundQueryContainerInterface
      */
     public function queryRefundByIdSalesOrder($idSalesOrder);
 
+
+    /**
+     * @param int[] $itemIds
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundForOrderItems($itemIds);
+
 }

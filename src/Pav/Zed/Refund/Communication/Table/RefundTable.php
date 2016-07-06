@@ -51,7 +51,7 @@ class RefundTable extends AbstractTable
             [
                 PavRefundTableMap::COL_ID_REFUND => 'Id',
                 PavRefundTableMap::COL_SUCCESSFUL => 'Successful',
-                PavRefundTableMap::COL_CUSTOMER_INFO => 'Customer Info',
+                PavRefundTableMap::COL_COMMENT => 'Comment',
                 PavRefundTableMap::COL_CREATED_AT => 'Created At',
                 self::COLUMN_ACTION => self::COLUMN_ACTION
             ]
@@ -82,7 +82,7 @@ class RefundTable extends AbstractTable
             $refundCollection[] = [
                 PavRefundTableMap::COL_ID_REFUND => $refund[PavRefundTableMap::COL_ID_REFUND],
                 PavRefundTableMap::COL_SUCCESSFUL => $this->createSuccessfulLabel($refund[PavRefundTableMap::COL_SUCCESSFUL]),
-                PavRefundTableMap::COL_CUSTOMER_INFO => $refund[PavRefundTableMap::COL_CUSTOMER_INFO],
+                PavRefundTableMap::COL_COMMENT => $refund[PavRefundTableMap::COL_COMMENT],
                 PavRefundTableMap::COL_CREATED_AT => $this->formatDate($refund[PavRefundTableMap::COL_CREATED_AT]),
                 self::COLUMN_ACTION => $this->createActionColumn($refund),
             ];

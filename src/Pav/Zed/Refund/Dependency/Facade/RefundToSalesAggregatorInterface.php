@@ -14,4 +14,11 @@ interface RefundToSalesAggregatorInterface
      */
     public function getOrderTotalByOrderTransfer(OrderTransfer $orderTransfer);
 
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Generated\Shared\Transfer\OrderTransfer
+     */
+    public function getOrderTotalsByIdSalesOrder($idSalesOrder);
+
 }

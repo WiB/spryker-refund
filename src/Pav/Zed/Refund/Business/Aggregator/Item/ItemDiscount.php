@@ -14,7 +14,9 @@ class ItemDiscount implements ItemAggregatorInterface
      */
     public function aggregate(RefundItemTransfer $itemTransfer)
     {
+        $totalGrossPriceWithDiscount = $itemTransfer->getTotalGrossPrice() - $itemTransfer->getDiscountAmount();
 
+        $itemTransfer->setTotalGrossPriceWithDiscount($totalGrossPriceWithDiscount);
     }
 
 }

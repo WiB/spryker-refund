@@ -24,8 +24,14 @@ class RefundFacade extends AbstractFacade
         return $this->getFactory()->createOrderRefundManager()->createRefund($order, $orderItems);
     }
 
+    /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return \Generated\Shared\Transfer\RefundTransfer
+     */
     public function updateRefund(RefundTransfer $refundTransfer)
     {
+        return $this->getFactory()->createRefundWriter()->updateRefund($refundTransfer);
     }
 
     /**
@@ -48,6 +54,68 @@ class RefundFacade extends AbstractFacade
     public function getRefund($idRefund)
     {
         return $this->getFactory()->createRefundReader()->getRefund($idRefund);
+    }
+
+    /**
+     * @param int[] $itemIds
+     * @param bool $refundTotals
+     *
+     * @throws \Exception
+     * @return \Generated\Shared\Transfer\RefundTransfer
+     */
+    public function getRefundForOrderItems($itemIds, $refundTotals = false)
+    {
+        return $this->getFactory()->createRefundReader()->getRefundForOrderItems($itemIds, $refundTotals);
+    }
+
+    /**
+     * @param int $idRefundItem
+     *
+     * @return bool
+     */
+    public function deleteRefundItem($idRefundItem)
+    {
+        return $this->getFactory()->createRefundWriter()->deleteRefundItem($idRefundItem);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundNotSuccessful($idRefund)
+    {
+        return $this->getFactory()->createRefundWriter()->setRefundNotSuccessful($idRefund);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundSuccessful($idRefund)
+    {
+        return $this->getFactory()->createRefundWriter()->setRefundSuccessful($idRefund);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundIsManual($idRefund)
+    {
+        return $this->getFactory()->createRefundWriter()->setRefundIsManual($idRefund);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundIsNotManual($idRefund)
+    {
+        return $this->getFactory()->createRefundWriter()->setRefundIsNotManual($idRefund);
     }
 
     /**

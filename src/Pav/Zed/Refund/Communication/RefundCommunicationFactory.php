@@ -2,11 +2,8 @@
 
 namespace Pav\Zed\Refund\Communication;
 
-use Pav\Zed\Refund\Communication\Form\DataFormatter\RefundDataFormatter;
-use Pav\Zed\Refund\Communication\Form\Handler\RefundHandler;
-use Pav\Zed\Refund\Communication\Form\Refund;
-use Pav\Zed\Refund\Communication\Form\RefundItem;
 use Pav\Zed\Refund\Communication\Table\RefundTable;
+use Pyz\Zed\Refund\RefundDependencyProvider;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
@@ -32,47 +29,11 @@ class RefundCommunicationFactory extends AbstractCommunicationFactory
     }
 
     /**
-     * @param array $formData
-     * @param array $options
-     *
-     * @return \Symfony\Component\Form\FormInterface
+     * @return \Pyz\Zed\Refund\Dependency\Facade\RefundToOmsInterface
      */
-    public function createRefundForm(array $formData, array $options)
+    public function getOmsFacade()
     {
-        $refundForm = new Refund();
-
-        return $this->getFormFactory()->create($refundForm, $formData, $options);
-    }
-
-    /**
-     * @param array $formData
-     * @param array $options
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    public function createRefundItemForm(array $formData, array $options)
-    {
-        $refundItemForm = new RefundItem();
-
-        return $this->getFormFactory()->create($refundItemForm, $formData, $options);
-    }
-
-    /**
-     * @return \Pav\Zed\Refund\Communication\Form\DataFormatter\RefundDataFormatter
-     */
-    public function createRefundDataFormatter()
-    {
-        return new RefundDataFormatter();
-    }
-
-    /**
-     * @return \Pav\Zed\Refund\Communication\Form\Handler\RefundHandler
-     */
-    public function createRefundHandler()
-    {
-        return new RefundHandler(
-            $this->getFacade()
-        );
+        return $this->getProvidedDependency(RefundDependencyProvider::FACADE_OMS);
     }
 
 }

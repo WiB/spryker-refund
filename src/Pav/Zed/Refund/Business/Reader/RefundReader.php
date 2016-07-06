@@ -6,6 +6,7 @@ use Generated\Shared\Transfer\RefundItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
 use Orm\Zed\Refund\Persistence\PavRefund;
 use Pav\Zed\Refund\Business\Aggregator\RefundTotalsAggregatorInterface;
+use Pav\Zed\Refund\Business\Exception\MultipleRefundsFoundException;
 use Pav\Zed\Refund\Business\Exception\RefundNotFoundException;
 use Pav\Zed\Refund\Persistence\RefundQueryContainerInterface;
 
@@ -54,6 +55,36 @@ class RefundReader
 
         $refundTransfer = $this->convertToTransfer($refundEntity);
         $refundTransfer = $this->totalsAggregator->aggregate($refundTransfer);
+
+        return $refundTransfer;
+    }
+
+
+    /**
+     * @param int[] $itemIds
+     * @param bool $aggregateTotals
+     *
+     * @throws \Exception
+     * @return \Generated\Shared\Transfer\RefundTransfer
+     */
+    public function getRefundForOrderItems(array $itemIds, $aggregateTotals = false)
+    {
+        $refunds = $this->queryContainer
+            ->queryRefundForOrderItems($itemIds)
+            ->find();
+
+        if (count($refunds) > 1) {
+            throw new MultipleRefundsFoundException(
+                'Multiple refunds found for items.'
+            );
+        }
+
+        $refundEntity = $refunds[0];
+        $refundTransfer = $this->convertToTransfer($refundEntity);
+
+        if ($aggregateTotals) {
+            $this->totalsAggregator->aggregate($refundTransfer);
+        }
 
         return $refundTransfer;
     }

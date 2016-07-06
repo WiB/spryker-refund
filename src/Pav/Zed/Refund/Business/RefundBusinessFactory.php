@@ -62,7 +62,8 @@ class RefundBusinessFactory extends AbstractBusinessFactory
     public function createRefundWriter()
     {
         return new RefundWriter(
-            $this->getQueryContainer()
+            $this->getQueryContainer(),
+            $this->createRefundTotalsAggregator()
         );
     }
 

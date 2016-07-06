@@ -31,4 +31,14 @@ class RefundToSalesAggregatorBridge implements RefundToSalesAggregatorInterface
         return $this->salesAggregatorFacade->getOrderTotalByOrderTransfer($orderTransfer);
     }
 
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return \Generated\Shared\Transfer\OrderTransfer
+     */
+    public function getOrderTotalsByIdSalesOrder($idSalesOrder)
+    {
+        return $this->salesAggregatorFacade->getOrderTotalsByIdSalesOrder($idSalesOrder);
+    }
+
 }

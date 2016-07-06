@@ -4,7 +4,9 @@ namespace Pav\Zed\Refund\Business\Writer;
 
 use Generated\Shared\Transfer\RefundItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
+use Pav\Zed\Refund\Business\Aggregator\RefundTotalsAggregatorInterface;
 use Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException;
+use Pav\Zed\Refund\Business\Exception\RefundNotFoundException;
 use Pav\Zed\Refund\Persistence\RefundQueryContainerInterface;
 
 class RefundWriter implements RefundWriterInterface
@@ -16,11 +18,20 @@ class RefundWriter implements RefundWriterInterface
     protected $queryContainer;
 
     /**
-     * @param \Pav\Zed\Refund\Persistence\RefundQueryContainerInterface $queryContainer
+     * @var \Pav\Zed\Refund\Business\Aggregator\RefundTotalsAggregatorInterface
      */
-    public function __construct(RefundQueryContainerInterface $queryContainer)
-    {
+    protected $totalsAggregator;
+
+    /**
+     * @param \Pav\Zed\Refund\Persistence\RefundQueryContainerInterface $queryContainer
+     * @param \Pav\Zed\Refund\Business\Aggregator\RefundTotalsAggregatorInterface $totalsAggregator
+     */
+    public function __construct(
+        RefundQueryContainerInterface $queryContainer,
+        RefundTotalsAggregatorInterface $totalsAggregator
+    ) {
         $this->queryContainer = $queryContainer;
+        $this->totalsAggregator = $totalsAggregator;
     }
 
     /**
@@ -53,6 +64,8 @@ class RefundWriter implements RefundWriterInterface
      */
     public function writeRefundItem(RefundItemTransfer $refundItem)
     {
+        $refundItem = $this->totalsAggregator->aggregateItem($refundItem);
+
         $refundItemEntity = $this->queryContainer->createPavRefundItem();
         $refundItemEntity->fromArray($refundItem->toArray());
         $refundItemEntity->save();
@@ -60,6 +73,65 @@ class RefundWriter implements RefundWriterInterface
         $refundItem->setIdRefundItem($refundItemEntity->getIdRefundItem());
 
         return $refundItem;
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundNotSuccessful($idRefund)
+    {
+        return $this->setRefundSuccess($idRefund, false);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundSuccessful($idRefund)
+    {
+        return $this->setRefundSuccess($idRefund, true);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundIsManual($idRefund)
+    {
+        return $this->setRefundIsManualFlag($idRefund, true);
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @return int
+     */
+    public function setRefundIsNotManual($idRefund)
+    {
+        return $this->setRefundIsManualFlag($idRefund, false);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundNotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @return \Generated\Shared\Transfer\RefundTransfer
+     */
+    public function updateRefund(RefundTransfer $refundTransfer)
+    {
+        $idRefund = $refundTransfer->getIdRefund();
+
+        $refundEntity = $this->getRefundEntity($idRefund);
+
+        $refundEntity->setComment($refundTransfer->getComment());
+        $refundEntity->save();
+
+        return $refundTransfer;
     }
 
     /**
@@ -79,6 +151,33 @@ class RefundWriter implements RefundWriterInterface
         }
 
         return $refundItems;
+    }
+
+    /**
+     * @param int $idRefundItem
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundItemNotFoundException
+     *
+     * @return bool
+     */
+    public function deleteRefundItem($idRefundItem)
+    {
+        $refundItemEntity = $this->queryContainer
+            ->queryRefundItemById($idRefundItem)
+            ->findOne();
+
+        if ($refundItemEntity === null) {
+            throw new RefundItemNotFoundException(
+                sprintf('Refund item %s not found', $idRefundItem)
+            );
+        }
+
+        if ($refundItemEntity->getFkSalesOrderItem() === null) {
+            $refundItemEntity->delete();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -105,6 +204,59 @@ class RefundWriter implements RefundWriterInterface
         $refundItemEntity->save();
 
         return $refundItem;
+    }
+
+    /**
+     * @param int $idRefund
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundNotFoundException
+     * @return \Orm\Zed\Refund\Persistence\PavRefund
+     */
+    protected function getRefundEntity($idRefund)
+    {
+        $refundEntity = $this->queryContainer
+            ->queryRefundById($idRefund)
+            ->findOne();
+
+        if ($refundEntity === null) {
+            throw new RefundNotFoundException(
+                sprintf('Refund %s not found', $idRefund)
+            );
+        }
+
+        return $refundEntity;
+    }
+
+    /**
+     * @param int $idRefund
+     * @param bool $successful
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundNotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @return int
+     */
+    protected function setRefundSuccess($idRefund, $successful)
+    {
+        $refundEntity = $this->getRefundEntity($idRefund);
+        $refundEntity->setSuccessful($successful);
+
+        return $refundEntity->save();
+    }
+
+    /**
+     * @param int $idRefund
+     * @param bool $isManual
+     *
+     * @throws \Pav\Zed\Refund\Business\Exception\RefundNotFoundException
+     * @throws \Propel\Runtime\Exception\PropelException
+     * @return int
+     */
+    protected function setRefundIsManualFlag($idRefund, $isManual)
+    {
+        $refundEntity = $this->getRefundEntity($idRefund);
+        $refundEntity->setIsManual($isManual);
+
+        return $refundEntity->save();
     }
 
 }

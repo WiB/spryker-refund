@@ -66,4 +66,20 @@ class RefundQueryContainer extends AbstractQueryContainer implements RefundQuery
         return $refundQuery;
     }
 
+    /**
+     * @param \int[] $itemIds
+     *
+     * @return \Orm\Zed\Refund\Persistence\PavRefundQuery
+     */
+    public function queryRefundForOrderItems($itemIds)
+    {
+        $refundQuery = new PavRefundQuery();
+        $refundQuery->useRefundItemQuery()
+            ->filterByFkSalesOrderItem($itemIds)
+            ->endUse()
+        ->groupByIdRefund();
+
+        return $refundQuery;
+    }
+
 }
