@@ -27,7 +27,7 @@ class CreateRefundCommand extends AbstractCommand implements CommandByOrderInter
         $itemTransfers = $this->getItemTransfers($orderItems);
         $orderTransfer = $this->getOrderTransfer($orderEntity);
 
-        $this->getFacade()->createRefund($orderTransfer, $itemTransfers);
+        $this->getFacade()->createRefundByOrder($orderTransfer, $itemTransfers);
     }
 
     /**

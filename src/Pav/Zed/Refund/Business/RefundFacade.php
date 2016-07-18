@@ -19,9 +19,19 @@ class RefundFacade extends AbstractFacade
      *
      * @return \Generated\Shared\Transfer\RefundTransfer
      */
-    public function createRefund(OrderTransfer $order, array $orderItems)
+    public function createRefundByOrder(OrderTransfer $order, array $orderItems)
     {
         return $this->getFactory()->createOrderRefundManager()->createRefund($order, $orderItems);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return \Generated\Shared\Transfer\RefundTransfer
+     */
+    public function createRefund(RefundTransfer $refundTransfer)
+    {
+        return $this->getFactory()->createRefundWriter()->writeRefund($refundTransfer);
     }
 
     /**

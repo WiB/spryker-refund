@@ -65,7 +65,7 @@ class RefundReader
      * @param bool $aggregateTotals
      *
      * @throws \Exception
-     * @return \Generated\Shared\Transfer\RefundTransfer
+     * @return \Generated\Shared\Transfer\RefundTransfer|null
      */
     public function getRefundForOrderItems(array $itemIds, $aggregateTotals = false)
     {
@@ -73,7 +73,13 @@ class RefundReader
             ->queryRefundForOrderItems($itemIds)
             ->find();
 
-        if (count($refunds) > 1) {
+        $refundCount = count($refunds);
+
+        if ($refundCount === 0) {
+            return null;
+        }
+
+        if ($refundCount > 1) {
             throw new MultipleRefundsFoundException(
                 'Multiple refunds found for items.'
             );

@@ -6,6 +6,12 @@
 
             {{ refundTable | raw }}
 
+            <div id="refundButtons">
+                <a href="/refund/custom/create?id-sales-order={{ idSalesOrder }}" class="btn btn-sm btn-warning">
+                    Create Custom Refund
+                </a>
+            </div>
+
         {% endblock %}
 
     {% endembed %}
