@@ -7,6 +7,7 @@ use Pav\Zed\Refund\Business\Aggregator\Item\ItemDiscount;
 use Pav\Zed\Refund\Business\Aggregator\Item\ItemTax;
 use Pav\Zed\Refund\Business\Aggregator\RefundTotalsAggregator;
 use Pav\Zed\Refund\Business\Aggregator\Totals\DiscountTotal;
+use Pav\Zed\Refund\Business\Aggregator\Totals\ItemGrouper;
 use Pav\Zed\Refund\Business\Aggregator\Totals\RefundTotal;
 use Pav\Zed\Refund\Business\Aggregator\Totals\SubTotal;
 use Pav\Zed\Refund\Business\Aggregator\Totals\TaxTotal;
@@ -125,6 +126,14 @@ class RefundBusinessFactory extends AbstractBusinessFactory
         return new TaxTotal(
             $this->getTaxFacade()
         );
+    }
+
+    /**
+     * @return \Pav\Zed\Refund\Business\Aggregator\Totals\ItemGrouper
+     */
+    public function createItemGouperAggregator()
+    {
+        return new ItemGrouper();
     }
 
     /**

@@ -3,10 +3,8 @@
 namespace Pav\Zed\Refund\Business\Aggregator\Totals;
 
 use Generated\Shared\Transfer\GroupedRefundItemTransfer;
-use Generated\Shared\Transfer\ItemTransfer;
 use Generated\Shared\Transfer\RefundItemTransfer;
 use Generated\Shared\Transfer\RefundTransfer;
-use Pyz\Zed\Refund\Communication\Form\RefundItem;
 
 class ItemGrouper implements TotalAggregatorInterface
 {
@@ -19,8 +17,8 @@ class ItemGrouper implements TotalAggregatorInterface
     public function aggregate(RefundTransfer $refundTransfer)
     {
         $refundItems = $refundTransfer->getItems();
-
-        $this->groupItemsByName($refundItems);
+        $groupedRefundItems = $this->groupItemsByName($refundItems);
+        $refundTransfer->setGroupedItems(new \ArrayObject($groupedRefundItems));
     }
 
     /**
@@ -58,7 +56,6 @@ class ItemGrouper implements TotalAggregatorInterface
         $groupedRefundItem = new GroupedRefundItemTransfer();
 
         $groupedRefundItem->setName($refundItem->getName());
-        $groupedRefundItem->setReason($refundItem->getReason());
         $groupedRefundItem->setTotalGrossPriceWithDiscount($refundItem->getTotalGrossPriceWithDiscount());
         $groupedRefundItem->setTotalGrossPrice($refundItem->getTotalGrossPrice());
         $groupedRefundItem->setGrossPrice($refundItem->getGrossPrice());
@@ -88,7 +85,7 @@ class ItemGrouper implements TotalAggregatorInterface
         $groupedRefundItem->setTotalGrossPrice($groupTotalGrossPrice);
         $groupedRefundItem->setQuantity($groupQuantity);
         $groupedRefundItem->setTaxAmount($groupTaxAmount);
-        $groupedRefundItem->setDiscountAmount($groupDiscountAmount;
+        $groupedRefundItem->setDiscountAmount($groupDiscountAmount);
 
         return $groupedRefundItem;
     }

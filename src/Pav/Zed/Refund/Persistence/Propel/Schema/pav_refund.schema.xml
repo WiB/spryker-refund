@@ -27,7 +27,6 @@
         <column name="fk_refund" type="INTEGER" required="true"/>
         <column name="fk_sales_order_item" type="INTEGER"/>
         <column name="name" type="VARCHAR" required="true"/>
-        <column name="reason" type="LONGVARCHAR" default="NULL"/>
         <column name="quantity" type="INTEGER" required="true"/>
         <column name="gross_price" type="INTEGER" required="true"/>
         <column name="discount_amount" type="INTEGER"/>

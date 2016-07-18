@@ -10,7 +10,7 @@
         <property name="isManual" type="bool"/>
         <property name="comment" type="string"/>
         <property name="items" type="RefundItem[]" singular="item"/>
-        <property name="groupedItems" type="GroupedRefundItem[]" singular="item"/>
+        <property name="groupedItems" type="GroupedRefundItem[]" singular="groupedItem"/>
         <property name="totals" type="RefundTotals"/>
     </transfer>
 
@@ -19,7 +19,6 @@
         <property name="fkRefund" type="int"/>
         <property name="fkSalesOrderItem" type="int"/>
         <property name="name" type="string"/>
-        <property name="reason" type="string"/>
         <property name="quantity" type="int"/>
         <property name="grossPrice" type="int"/>
         <property name="discountAmount" type="int"/>
@@ -31,7 +30,6 @@
 
     <transfer name="GroupedRefundItem">
         <property name="name" type="string"/>
-        <property name="reason" type="string"/>
         <property name="quantity" type="int"/>
         <property name="grossPrice" type="int"/>
         <property name="discountAmount" type="int"/>

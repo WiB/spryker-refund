@@ -77,7 +77,7 @@ class RefundQueryContainer extends AbstractQueryContainer implements RefundQuery
         $refundQuery->useRefundItemQuery()
             ->filterByFkSalesOrderItem($itemIds)
             ->endUse()
-        ->groupByIdRefund();
+            ->groupByIdRefund();
 
         return $refundQuery;
     }

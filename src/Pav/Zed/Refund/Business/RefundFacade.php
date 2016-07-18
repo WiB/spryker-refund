@@ -189,6 +189,16 @@ class RefundFacade extends AbstractFacade
     }
 
     /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return void
+     */
+    public function aggregateGroupedItems(RefundTransfer $refundTransfer)
+    {
+        $this->getFactory()->createItemGouperAggregator()->aggregate($refundTransfer);
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\RefundItemTransfer $itemTransfer
      *
      * @return void
