@@ -44,6 +44,7 @@ class RefundWriter implements RefundWriterInterface
     {
         $refundEntity = $this->queryContainer->createPavRefund();
         $refundEntity->fromArray($refund->toArray());
+        $refundEntity->setIsCustom($this->isCustomRefund($refund));
         $refundEntity->save();
 
         $refund->setIdRefund($refundEntity->getIdRefund());
@@ -257,6 +258,22 @@ class RefundWriter implements RefundWriterInterface
         $refundEntity->setIsManual($isManual);
 
         return $refundEntity->save();
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     *
+     * @return bool
+     */
+    protected function isCustomRefund(RefundTransfer $refundTransfer)
+    {
+        foreach ($refundTransfer->getItems() as $refundItem) {
+            if ($refundItem->getFkSalesOrderItem() !== null) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

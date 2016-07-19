@@ -30,11 +30,12 @@ class ItemGrouper implements TotalAggregatorInterface
     {
         $groupedRefundItems = [];
 
+        /* @var \Generated\Shared\Transfer\RefundItemTransfer $refundItem */
         foreach ($refundItems as $refundItem) {
-            $itemName = $refundItem->getName();
+            $groupKey = $refundItem->getGroupKey();
 
-            if (isset($groupedRefundItems[$itemName])) {
-                $groupedRefundItem = $groupedRefundItems[$itemName];
+            if (isset($groupedRefundItems[$groupKey])) {
+                $groupedRefundItem = $groupedRefundItems[$groupKey];
                 $groupedRefundItem = $this->aggregateItem($groupedRefundItem, $refundItem);
             } else {
                 $groupedRefundItem = $this->createNewItem($refundItem);

@@ -9,6 +9,7 @@
         <column name="id_refund" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_sales_order" type="INTEGER" required="true"/>
         <column name="is_manual" type="BOOLEAN"/>
+        <column name="is_custom" type="BOOLEAN"/>
         <column name="successful" type="BOOLEAN" default="NULL"/>
         <column name="comment" type="VARCHAR"/>
 
@@ -27,6 +28,7 @@
         <column name="fk_refund" type="INTEGER" required="true"/>
         <column name="fk_sales_order_item" type="INTEGER"/>
         <column name="name" type="VARCHAR" required="true"/>
+        <column name="group_key" type="VARCHAR" size="255" required="true"/>
         <column name="quantity" type="INTEGER" required="true"/>
         <column name="gross_price" type="INTEGER" required="true"/>
         <column name="discount_amount" type="INTEGER"/>
