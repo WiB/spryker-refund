@@ -4,8 +4,8 @@
            xsi:schemaLocation="http://xsd.spryker.com ../../src/Spryker/TransferObjectDefinitionSchema.xsd">
 
     <transfer name="Refund">
-        <!--<property name="idRefund" type="int"/>-->
-        <!--<property name="fkSalesOrder" type="int"/>-->
+        <property name="idRefund" type="int"/>
+        <property name="fkSalesOrder" type="int"/>
         <property name="successful" type="bool"/>
         <property name="isManual" type="bool"/>
         <property name="isCustom" type="bool"/>
@@ -28,6 +28,7 @@
         <property name="totalGrossPriceWithDiscount" type="int"/>
         <property name="taxRate" type="float"/>
         <property name="taxAmount" type="int"/>
+        <property name="taxAmountWithDiscount" type="int"/>
     </transfer>
 
     <transfer name="GroupedRefundItem">
@@ -39,13 +40,15 @@
         <property name="totalGrossPriceWithDiscount" type="int"/>
         <property name="taxRate" type="float"/>
         <property name="taxAmount" type="int"/>
+        <property name="taxAmountWithDiscount" type="int"/>
     </transfer>
 
     <transfer name="RefundTotals">
         <property name="subTotal" type="int" />
         <property name="discountTotal" type="int" />
-        <property name="taxTotal" type="TaxTotal" />
         <property name="refundTotal" type="int" />
+        <property name="taxTotalAmount" type="int" />
+        <property name="taxTotals" type="TaxTotal[]" singular="TaxTotal"/>
     </transfer>
 
 </transfers>

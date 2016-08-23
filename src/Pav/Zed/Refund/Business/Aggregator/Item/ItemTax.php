@@ -32,6 +32,8 @@ class ItemTax implements ItemAggregatorInterface
             return;
         }
 
+        $this->taxBridge->resetAccruedTaxCalculatorRoundingErrorDelta();
+
         $itemTransfer
             ->requireGrossPrice()
             ->requireTotalGrossPrice();
@@ -42,6 +44,13 @@ class ItemTax implements ItemAggregatorInterface
         );
 
         $itemTransfer->setTaxAmount($taxAmount);
+
+        $taxAmountWithDiscount = $this->taxBridge->getTaxAmountFromGrossPrice(
+            $itemTransfer->getTotalGrossPriceWithDiscount(),
+            $itemTransfer->getTaxRate()
+        );
+
+        $itemTransfer->setTaxAmountWithDiscount($taxAmountWithDiscount);
     }
 
 }

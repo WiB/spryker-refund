@@ -29,55 +29,59 @@ class TaxTotal implements TotalAggregatorInterface
      */
     public function aggregate(RefundTransfer $refundTransfer)
     {
-        $effectiveTaxRate = $this->getEffectiveTaxRate($refundTransfer);
-        $effectiveTaxAmount = $this->taxBridge->getTaxAmountFromGrossPrice(
-            $refundTransfer->getTotals()->getRefundTotal(),
-            $effectiveTaxRate
-        );
+        $totals = $refundTransfer->getTotals();
 
-        $taxTotalTransfer = new TaxTotalTransfer();
-        $taxTotalTransfer->setAmount($effectiveTaxAmount);
-        $taxTotalTransfer->setTaxRate($effectiveTaxRate);
+        $groupedTaxTotals = $this->getGroupedTaxTotals($refundTransfer->getItems());
+        $taxTotalAmount = $this->getTaxTotalAmount($groupedTaxTotals);
 
-        $totalsTransfer = $refundTransfer->getTotals();
-        $totalsTransfer->setTaxTotal($taxTotalTransfer);
+        $totals->setTaxTotals($groupedTaxTotals);
+        $totals->setTaxTotalAmount($taxTotalAmount);
     }
 
     /**
-     * @param \Generated\Shared\Transfer\RefundTransfer $refundTransfer
+     * @param \ArrayObject|\Generated\Shared\Transfer\RefundItemTransfer[] $refundItems
      *
-     * @return float|int
+     * @return \ArrayObject
      */
-    protected function getEffectiveTaxRate(RefundTransfer $refundTransfer)
+    protected function getGroupedTaxTotals(\ArrayObject $refundItems)
     {
-        $taxRates = $this->getTaxRates($refundTransfer->getItems());
+        $groupedTaxTotals = new \ArrayObject();
 
-        $totalTaxRate = array_sum($taxRates);
-        if (empty($totalTaxRate)) {
-            return 0;
-        }
+        foreach ($refundItems as $refundItem) {
 
-        $effectiveTaxRate = $totalTaxRate / count($taxRates);
+            $taxRateIndex = (string)$refundItem->getTaxRate();
 
-        return $effectiveTaxRate;
-    }
-
-    /**
-     * @param \ArrayObject|\Generated\Shared\Transfer\RefundItemTransfer[]$taxableItems
-     *
-     * @return int[]
-     */
-    protected function getTaxRates(\ArrayObject $taxableItems)
-    {
-        $taxRates = [];
-
-        foreach ($taxableItems as $item) {
-            if ($item->getTaxRate()) {
-                $taxRates[] = $item->getTaxRate();
+            if (!$groupedTaxTotals->offsetExists($taxRateIndex)) {
+                $taxTotal = new TaxTotalTransfer();
+                $taxTotal->setTaxRate($refundItem->getTaxRate());
+                $groupedTaxTotals->offsetSet($taxRateIndex, $taxTotal);
+            } else {
+                $taxTotal = $groupedTaxTotals->offsetGet($taxRateIndex);
             }
+
+            $taxTotalAmount = (int)$taxTotal->getAmount();
+            $taxTotalAmount += $refundItem->getTaxAmountWithDiscount();
+
+            $taxTotal->setAmount($taxTotalAmount);
         }
 
-        return $taxRates;
+        return $groupedTaxTotals;
+    }
+
+    /**
+     * @param \ArrayObject|\Generated\Shared\Transfer\TaxTotalTransfer[] $taxTotals
+     *
+     * @return int
+     */
+    protected function getTaxTotalAmount(\ArrayObject $taxTotals)
+    {
+        $taxTotalAmount = 0;
+
+        foreach ($taxTotals as $taxTotal) {
+            $taxTotalAmount += $taxTotal->getAmount();
+        }
+
+        return $taxTotalAmount;
     }
 
 }

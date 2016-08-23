@@ -73,7 +73,7 @@ class RefundFacade extends AbstractFacade
      * @throws \Exception
      * @return \Generated\Shared\Transfer\RefundTransfer
      */
-    public function getRefundForOrderItems($itemIds, $refundTotals = false)
+    public function getRefundForOrderItems(array $itemIds, $refundTotals = false)
     {
         return $this->getFactory()->createRefundReader()->getRefundForOrderItems($itemIds, $refundTotals);
     }

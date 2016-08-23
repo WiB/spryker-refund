@@ -55,8 +55,8 @@ class RefundDependencyProvider extends AbstractBundleDependencyProvider
     {
         return [
             new ItemAmountPlugin(),
-            new ItemTaxPlugin(),
             new ItemDiscountPlugin(),
+            new ItemTaxPlugin(),
         ];
     }
 

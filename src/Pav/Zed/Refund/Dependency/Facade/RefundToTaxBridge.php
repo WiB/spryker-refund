@@ -31,4 +31,12 @@ class RefundToTaxBridge implements RefundToTaxInterface
         return $this->refundTaxFacade->getTaxAmountFromGrossPrice($grossPrice, $taxRate);
     }
 
+    /**
+     * @return void
+     */
+    public function resetAccruedTaxCalculatorRoundingErrorDelta()
+    {
+        $this->refundTaxFacade->resetAccruedTaxCalculatorRoundingErrorDelta();
+    }
+
 }

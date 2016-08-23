@@ -13,5 +13,14 @@ interface RefundToTaxInterface
      */
     public function getTaxAmountFromGrossPrice($grossPrice, $taxRate);
 
-}
+    /**
+     * Specification:
+     *  - Reset rounding error counter to 0
+     *
+     * @api
+     *
+     * @return void
+     */
+    public function resetAccruedTaxCalculatorRoundingErrorDelta();
 
+}
