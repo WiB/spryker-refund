@@ -56,6 +56,7 @@ class CreateRefundCommand extends AbstractCommand implements CommandByOrderInter
             $itemTransfer = new ItemTransfer();
             $itemTransfer->fromArray($orderItem->toArray(), true);
             $itemTransfer->setUnitGrossPrice($orderItem->getGrossPrice());
+            $itemTransfer->setGroupKey($orderItem->getSku());
 
             $itemTransfers[] = $itemTransfer;
         }
