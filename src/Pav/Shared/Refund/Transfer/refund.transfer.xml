@@ -10,7 +10,7 @@
         <property name="isManual" type="bool"/>
         <property name="isCustom" type="bool"/>
         <property name="comment" type="string"/>
-        <property name="items" type="RefundItem[]" singular="item"/>
+        <property name="refundItems" type="RefundItem[]" singular="refundItem"/>
         <property name="groupedItems" type="GroupedRefundItem[]" singular="groupedItem"/>
         <property name="totals" type="RefundTotals"/>
     </transfer>
