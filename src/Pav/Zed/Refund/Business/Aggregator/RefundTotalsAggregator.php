@@ -98,7 +98,7 @@ class RefundTotalsAggregator implements RefundTotalsAggregatorInterface
      */
     protected function aggregateItems(RefundTransfer $refundTransfer, RefundItemAggregatorPluginInterface $itemAggregator)
     {
-        foreach ($refundTransfer->getItems() as $item) {
+        foreach ($refundTransfer->getRefundItems() as $item) {
             $itemAggregator->aggregate($item);
         }
     }

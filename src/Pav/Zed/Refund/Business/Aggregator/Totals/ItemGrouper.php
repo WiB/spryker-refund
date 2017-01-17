@@ -16,7 +16,7 @@ class ItemGrouper implements TotalAggregatorInterface
      */
     public function aggregate(RefundTransfer $refundTransfer)
     {
-        $refundItems = $refundTransfer->getItems();
+        $refundItems = $refundTransfer->getRefundItems();
         $groupedRefundItems = $this->groupItemsByName($refundItems);
         $refundTransfer->setGroupedItems(new \ArrayObject($groupedRefundItems));
     }

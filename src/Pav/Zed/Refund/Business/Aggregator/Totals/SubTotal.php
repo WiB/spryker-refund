@@ -16,7 +16,7 @@ class SubTotal implements TotalAggregatorInterface
     {
         $subTotal = 0;
 
-        foreach ($refundTransfer->getItems() as $item) {
+        foreach ($refundTransfer->getRefundItems() as $item) {
             $item->requireTotalGrossPrice();
             $subTotal += $item->getTotalGrossPrice();
         }

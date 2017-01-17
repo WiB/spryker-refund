@@ -49,7 +49,7 @@ class RefundWriter implements RefundWriterInterface
 
         $refund->setIdRefund($refundEntity->getIdRefund());
 
-        foreach ($refund->getItems() as $item) {
+        foreach ($refund->getRefundItems() as $item) {
             $item->setFkRefund($refund->getIdRefund());
             $this->writeRefundItem($item);
         }
@@ -267,7 +267,7 @@ class RefundWriter implements RefundWriterInterface
      */
     protected function isCustomRefund(RefundTransfer $refundTransfer)
     {
-        foreach ($refundTransfer->getItems() as $refundItem) {
+        foreach ($refundTransfer->getRefundItems() as $refundItem) {
             if ($refundItem->getFkSalesOrderItem() !== null) {
                 return false;
             }

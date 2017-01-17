@@ -16,7 +16,7 @@ class DiscountTotal implements TotalAggregatorInterface
     {
         $discountTotal = 0;
 
-        foreach ($refundTransfer->getItems() as $itemTransfer) {
+        foreach ($refundTransfer->getRefundItems() as $itemTransfer) {
             $discountTotal += $itemTransfer->getDiscountAmount();
         }
 

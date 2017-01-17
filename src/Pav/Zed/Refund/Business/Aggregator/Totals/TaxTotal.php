@@ -31,7 +31,7 @@ class TaxTotal implements TotalAggregatorInterface
     {
         $totals = $refundTransfer->getTotals();
 
-        $groupedTaxTotals = $this->getGroupedTaxTotals($refundTransfer->getItems());
+        $groupedTaxTotals = $this->getGroupedTaxTotals($refundTransfer->getRefundItems());
         $taxTotalAmount = $this->getTaxTotalAmount($groupedTaxTotals);
 
         $totals->setTaxTotals($groupedTaxTotals);
