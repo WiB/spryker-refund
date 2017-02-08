@@ -267,7 +267,7 @@ class RefundWriter implements RefundWriterInterface
      */
     protected function isCustomRefund(RefundTransfer $refundTransfer)
     {
-        foreach ($refundTransfer->getRefundItems() as $refundItem) {
+        foreach ($refundTransfer->getItems() as $refundItem) {
             if ($refundItem->getFkSalesOrderItem() !== null) {
                 return false;
             }

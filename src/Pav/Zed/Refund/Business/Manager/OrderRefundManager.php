@@ -49,7 +49,7 @@ class OrderRefundManager
 
             $refundItem = $this->createRefundItem($orderItem);
 
-            $refund->addItem($refundItem);
+            $refund->addRefundItem($refundItem);
         }
 
         $refund = $this->refundWriter->writeRefund($refund);
