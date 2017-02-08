@@ -109,7 +109,7 @@ class RefundReader
             $refundItemTransfer = new RefundItemTransfer();
             $refundItemTransfer->fromArray($refundItem->toArray(), true);
 
-            $refundTransfer->addItem($refundItemTransfer);
+            $refundTransfer->addRefundItem($refundItemTransfer);
         }
 
         return $refundTransfer;
